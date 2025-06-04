@@ -1,12 +1,18 @@
+import os
 from flask import Flask, request, jsonify
 from flask_pymongo import PyMongo
 from flask_cors import CORS
+from dotenv import load_dotenv
+
+# Load .env variables
+load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # Allow cross-origin requests from frontend
+CORS(app)
 
-# Configure MongoDB (replace URI if needed)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/tododb"
+# Load Mongo URI from .env
+app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+
 mongo = PyMongo(app)
 
 @app.route("/submittodoitem", methods=["POST"])
